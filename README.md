@@ -4,7 +4,11 @@
 `SoundSec-CNN-LSTM` is an advanced project that employs Convolutional Neural Networks (CNN) and Long Short-Term Memory (LSTM) networks for recognizing security-sensitive sounds. The project is particularly focused on analyzing mel-spectrogram images, which provide a robust representation for audio processing tasks.
 
 ## Project Description
-This project aims to develop a reliable and efficient system for the identification of sounds associated with security threats. By integrating CNNs and LSTMs, it captures spatial features within mel-spectrograms and temporal patterns in audio sequences, making it adept at recognizing a variety of security-related sounds.
+This project aims to develop a reliable and efficient system for the identification of sounds associated with security threats. By integrating CNNs and LSTMs, it captures spatial features within mel-spectrograms and temporal patterns in audio sequences, making it adept at recognizing a variety of security-related samples.
+
+## Detailed Methodology
+For an in-depth explanation of the methodologies and theoretical frameworks employed in this project, please refer to the following document:
+- [SoundSec-CNN-LSTM Methodology (PDF)](path/to/SoundSec-CNN-LSTM.pdf)
 
 ## Key Features
 - **CNN-LSTM Architecture:** Combines CNNs for extracting features from mel-spectrogram images with LSTMs for understanding temporal dependencies.
@@ -13,4 +17,3 @@ This project aims to develop a reliable and efficient system for the identificat
 
 ## Dataset
 The dataset comprises 2524 security-suspicious sounds, averaging about 5 seconds in length and categorized into 7 classes. The classes include alarms, dog barking, explosions, glass breaking, screaming, shooting, and sirens. This diverse collection enables the model to learn and recognize a wide range of security-related acoustic signatures.
-
