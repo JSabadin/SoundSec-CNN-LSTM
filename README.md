@@ -17,3 +17,5 @@ For an in-depth explanation of the methodologies and theoretical frameworks empl
 
 ## Dataset
 The dataset comprises 2524 security-suspicious sounds, averaging about 5 seconds in length and categorized into 7 classes. The classes include alarms, dog barking, explosions, glass breaking, screaming, shooting, and sirens. This diverse collection enables the model to learn and recognize a wide range of security-related acoustic signatures.
+
+This project refines and builds upon code from the original project, which is licensed under the BSD 3-Clause License.
