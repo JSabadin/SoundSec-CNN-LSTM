@@ -8,7 +8,7 @@ This project aims to develop a reliable and efficient system for the identificat
 
 ## Detailed Methodology
 For an in-depth explanation of the methodologies and theoretical frameworks employed in this project, please refer to the following document:
-- [SoundSec-CNN-LSTM Methodology (PDF)](path/to/SoundSec-CNN-LSTM.pdf)
+- [SoundSec-CNN-LSTM Methodology (PDF)](SoundSec-CNN-LSTM.pdf)
 
 ## Key Features
 - **CNN-LSTM Architecture:** Combines CNNs for extracting features from mel-spectrogram images with LSTMs for understanding temporal dependencies.
