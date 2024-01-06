@@ -1,3 +1,7 @@
+# This file is derived from work originally created by Hbbbbbby (https://github.com/Hbbbbbby/EmotionRecognition_2Dcnn-lstm).
+# Original License: BSD 3-Clause License (https://github.com/Hbbbbbby/EmotionRecognition_2Dcnn-lstm/blob/main/LICENSE).
+# Changes were made by converting the model from TensorFlow to PyTorch, while maintaining the same structure.
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
