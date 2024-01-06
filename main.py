@@ -1,3 +1,7 @@
+# This file is derived from work originally created by Hbbbbbby (https://github.com/Hbbbbbby/EmotionRecognition_2Dcnn-lstm).
+# Original License: BSD 3-Clause License (https://github.com/Hbbbbbby/EmotionRecognition_2Dcnn-lstm/blob/main/LICENSE).
+# Changes were made by adding stopping criteria, plotting confusion matrices, and using a different dataset.
+
 import matplotlib.pyplot as plt
 import numpy as np
 import torch
