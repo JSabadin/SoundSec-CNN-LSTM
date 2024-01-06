@@ -1,3 +1,7 @@
+# This file is derived from work originally created by Hbbbbbby (https://github.com/Hbbbbbby/EmotionRecognition_2Dcnn-lstm).
+# Original License: BSD 3-Clause License (https://github.com/Hbbbbbby/EmotionRecognition_2Dcnn-lstm/blob/main/LICENSE).
+# Changes were made by using a different database consisting of suspicious sounds. Additionally, data augmentation was implemented in the training set.
+
 import librosa
 import numpy as np
 import pathlib

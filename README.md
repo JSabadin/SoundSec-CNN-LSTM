@@ -8,7 +8,7 @@ This project aims to develop a reliable and efficient system for the identificat
 
 ## Detailed Methodology
 For an in-depth explanation of the methodologies and theoretical frameworks employed in this project, please refer to the following document:
-- [SoundSec-CNN-LSTM Methodology (PDF)](path/to/SoundSec-CNN-LSTM.pdf)
+- [SoundSec-CNN-LSTM Methodology (PDF)](SoundSec-CNN-LSTM.pdf)
 
 ## Key Features
 - **CNN-LSTM Architecture:** Combines CNNs for extracting features from mel-spectrogram images with LSTMs for understanding temporal dependencies.
@@ -17,3 +17,11 @@ For an in-depth explanation of the methodologies and theoretical frameworks empl
 
 ## Dataset
 The dataset comprises 2524 security-suspicious sounds, averaging about 5 seconds in length and categorized into 7 classes. The classes include alarms, dog barking, explosions, glass breaking, screaming, shooting, and sirens. This diverse collection enables the model to learn and recognize a wide range of security-related acoustic signatures.
+
+## Acknowledgments
+
+This project is based on and includes modifications to code originally developed by Hbbbbbby in their EmotionRecognition_2Dcnn-lstm project. The original code is licensed under the BSD 3-Clause License. We extend our gratitude to Hbbbbbby for their contributions to the open-source community. The original project can be found [here](https://github.com/Hbbbbbby/EmotionRecognition_2Dcnn-lstm).
+
+## License
+
+This project is licensed under the BSD 3-Clause License - see the [LICENSE](LICENSE) file for details.
