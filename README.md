@@ -7,17 +7,11 @@
 This project aims to develop a reliable and efficient system for the identification of sounds associated with security threats. By integrating CNNs and LSTMs, it captures spatial features within mel-spectrograms and temporal patterns in audio sequences, making it adept at recognizing a variety of security-related samples.
 
 ## Key Features
-- **CNN-LSTM Architecture:** Combines CNNs for extracting features from mel-spectrogram images with LSTMs for understanding temporal dependencies.
-- **Mel-Spectrogram Analysis:** Utilizes mel-spectrograms for a frequency-based, detailed representation of audio data.
+- **CNN-LSTM Architecture:** Combines CNNs for extracting features from MFCC features with LSTMs for understanding temporal dependencies.
+- **MFCC features:** Utilizes MFCC features explained in the pdf.
 - **Security Sound Recognition:** Specializes in detecting and classifying sounds that could indicate security threats, such as alarms, breaking glass, dog barks, explosions, sirens, screaming and gunshots.
 
 ## Dataset
 The dataset comprises 2524 security-suspicious sounds, averaging about 5 seconds in length and categorized into 7 classes. The classes include alarms, dog barking, explosions, glass breaking, screaming, shooting, and sirens. This diverse collection enables the model to learn and recognize a wide range of security-related acoustic signatures.
 
-## Acknowledgments
 
-This project is based on and includes modifications to code originally developed by Hbbbbbby in their EmotionRecognition_2Dcnn-lstm project. The original code is licensed under the BSD 3-Clause License. We extend our gratitude to Hbbbbbby for their contributions to the open-source community. The original project can be found [here](https://github.com/Hbbbbbby/EmotionRecognition_2Dcnn-lstm).
-
-## License
-
-This project is licensed under the BSD 3-Clause License - see the [LICENSE](LICENSE) file for details.
