@@ -6,10 +6,6 @@
 ## Project Description
 This project aims to develop a reliable and efficient system for the identification of sounds associated with security threats. By integrating CNNs and LSTMs, it captures spatial features within mel-spectrograms and temporal patterns in audio sequences, making it adept at recognizing a variety of security-related samples.
 
-## Detailed Methodology
-For an in-depth explanation of the methodologies and theoretical frameworks employed in this project, please refer to the following document:
-- [SoundSec-CNN-LSTM Methodology (PDF)](SoundSec-CNN-LSTM.pdf)
-
 ## Key Features
 - **CNN-LSTM Architecture:** Combines CNNs for extracting features from mel-spectrogram images with LSTMs for understanding temporal dependencies.
 - **Mel-Spectrogram Analysis:** Utilizes mel-spectrograms for a frequency-based, detailed representation of audio data.
