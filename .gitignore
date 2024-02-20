@@ -1,3 +1,4 @@
 best_model.pth
 wav/*
 slike/
+__pycache__/

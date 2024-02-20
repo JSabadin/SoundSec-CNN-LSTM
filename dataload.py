@@ -1,7 +1,5 @@
-# This file is derived from work originally created by Hbbbbbby (https://github.com/Hbbbbbby/EmotionRecognition_2Dcnn-lstm).
-# Original License: BSD 3-Clause License (https://github.com/Hbbbbbby/EmotionRecognition_2Dcnn-lstm/blob/main/LICENSE).
-# Changes were made by using a different database consisting of suspicious sounds. Additionally, data augmentation was implemented in the training set.
-
+#######################################################################################
+########## DATA AUGMENTATION ##########################################################
 import librosa
 import numpy as np
 import pathlib
@@ -34,6 +32,7 @@ def pitch_shift(data, sampling_rate, n_steps=5):
 
 def apply_augmentation(data, sr):
     augmentations = [
+        lambda x: x,  # No augmentation
         lambda x: add_noise(x),
         lambda x: time_stretch(x, rate=random.uniform(0.8, 1.2)),
         lambda x: pitch_shift(x, sr, n_steps=random.randint(-2, 2))
@@ -53,6 +52,24 @@ def get_log_mel_spectrogram_from_audio(y, sr, n_fft=2048, hop_length=512, n_mels
     log_mel_spectrogram = librosa.amplitude_to_db(mel_spectrogram)
     return log_mel_spectrogram
 
+
+def get_mfcc_from_audio(y, sr, n_fft=2048, hop_length=512, n_mfcc=13, target_length=128000):
+    # Trim or pad the audio signal
+    if len(y) > target_length:
+        y = y[:target_length]
+    elif len(y) < target_length:
+        y = np.pad(y, (0, target_length - len(y)), 'constant')
+
+    # Compute MFCC features
+    mfcc = librosa.feature.mfcc(y=y, sr=sr, n_fft=n_fft, hop_length=hop_length, n_mfcc=n_mfcc)
+    
+    # Compute delta and delta-delta features
+    delta_mfcc  = librosa.feature.delta(mfcc)
+    delta2_mfcc = librosa.feature.delta(mfcc, order=2)
+    
+    return np.vstack([mfcc, delta_mfcc, delta2_mfcc])
+
+    
 def safe_normalize(data):
     mean = np.mean(data, axis=0)
     std = np.std(data, axis=0)
@@ -81,15 +98,15 @@ def load_data(path, augmentation_count=3):
 
         if label_found:
             y, sr = librosa.load(file, sr=16000, duration=4)
-            spectrogram = get_log_mel_spectrogram_from_audio(y, sr)
-            original_data.append(spectrogram)
+            MFCC_features = get_mfcc_from_audio(y, sr)
+            original_data.append(MFCC_features)
             original_targets.append(labels[word])
             
             # Data augmentation
             for _ in range(augmentation_count - 1):
                 y_augmented = apply_augmentation(y, sr)
-                spectrogram_augmented = get_log_mel_spectrogram_from_audio(y_augmented, sr)
-                augmented_data.append(spectrogram_augmented)
+                MFCC_features_augmented = get_mfcc_from_audio(y_augmented, sr)
+                augmented_data.append(MFCC_features_augmented)
                 augmented_targets.append(labels[word])
 
     original_data = np.array(original_data)
@@ -111,9 +128,9 @@ def load_data(path, augmentation_count=3):
     X_val = safe_normalize(X_val)
     
 
-    X_train = X_train.reshape(X_train.shape[0], 1, X_train.shape[1], X_train.shape[2])
-    X_val = X_val.reshape(X_val.shape[0], 1, X_val.shape[1], X_val.shape[2])
-    X_test = X_test.reshape(X_test.shape[0], 1, X_test.shape[1], X_test.shape[2])
+    X_train = X_train.reshape(X_train.shape[0], X_train.shape[1], X_train.shape[2])
+    X_val = X_val.reshape(X_val.shape[0], X_val.shape[1], X_val.shape[2])
+    X_test = X_test.reshape(X_test.shape[0],  X_test.shape[1], X_test.shape[2])
 
     train_dataset = AudioDataset(torch.tensor(X_train, dtype=torch.float32), torch.tensor(y_train, dtype=torch.long))
     val_dataset = AudioDataset(torch.tensor(X_val, dtype=torch.float32), torch.tensor(y_val, dtype=torch.long))

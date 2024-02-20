@@ -1,20 +1,16 @@
-# This file is derived from work originally created by Hbbbbbby (https://github.com/Hbbbbbby/EmotionRecognition_2Dcnn-lstm).
-# Original License: BSD 3-Clause License (https://github.com/Hbbbbbby/EmotionRecognition_2Dcnn-lstm/blob/main/LICENSE).
-# Changes were made by adding stopping criteria, plotting confusion matrices, and using a different dataset.
-
 import matplotlib.pyplot as plt
 import numpy as np
 import torch
 import torch.nn as nn
-from sklearn.metrics import confusion_matrix
+from sklearn.metrics import confusion_matrix, precision_score, recall_score, f1_score
 import seaborn as sns
-import cnn2d  # Ensure this module is adapted for PyTorch
+import network   # Ensure this module is adapted for PyTorch
 import dataload  # Ensure this module is adapted for PyTorch
 
 # Configuration for using GPU if available
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
-def train(model, optimizer, criterion, train_loader, validation_loader, device, epochs=10, patience=20):
+def train(model, optimizer, criterion, train_loader, validation_loader, device, epochs=30, patience=20):
     model.to(device)
     best_val_loss = float('inf')
     patience_counter = 0
@@ -24,8 +20,6 @@ def train(model, optimizer, criterion, train_loader, validation_loader, device, 
     val_losses = []
     train_accuracies = []
     val_accuracies = []
-    all_preds = []
-    all_labels = []
 
     for epoch in range(epochs):
         model.train()
@@ -45,10 +39,6 @@ def train(model, optimizer, criterion, train_loader, validation_loader, device, 
             _, predicted = torch.max(outputs.data, 1)
             total += labels.size(0)
             correct += (predicted == labels).sum().item()
-
-            # Collect predictions and actual labels
-            all_preds.extend(predicted.cpu().numpy())
-            all_labels.extend(labels.cpu().numpy())
 
         avg_train_loss = running_loss / len(train_loader)
         train_accuracy = 100 * correct / total
@@ -78,12 +68,6 @@ def train(model, optimizer, criterion, train_loader, validation_loader, device, 
         val_accuracies.append(val_accuracy)
 
         print(f'Epoch {epoch+1}/{epochs}, Train Loss: {avg_train_loss:.4f}, Train Accuracy: {train_accuracy:.2f}%, Validation Loss: {avg_val_loss:.4f}, Validation Accuracy: {val_accuracy:.2f}%')
-
-        # Check if both train and validation accuracies are 100%
-        if train_accuracy == 100.0 and val_accuracy == 100.0:
-            print("Both training and validation accuracies reached 100%. Stopping training.")
-            torch.save(model.state_dict(), 'best_model.pth')
-            break
 
         # Early stopping based on validation loss
         if avg_val_loss < best_val_loss:
@@ -138,24 +122,35 @@ def test(model, test_loader, device):
     accuracy = 100 * correct / total
     print(f'Accuracy of the model on the test data: {accuracy}%')
 
+    # Calculate precision, recall, and F1 score
+    precision = precision_score(all_labels, all_preds, average='weighted')
+    recall = recall_score(all_labels, all_preds, average='weighted')
+    f1 = f1_score(all_labels, all_preds, average='weighted')
+    
+    print(f'Precision: {precision}')
+    print(f'Recall: {recall}')
+    print(f'F1 Score: {f1}')
+
     # Labels for the confusion matrix
-    sound_labels = ['siren', 'bark', 'shoot', 'scream', 'glass', 'alarm', 'explosion']
+    emotion_labels = ['anger', 'Boredom', 'disgust', 'fear', 'happiness', 'sadness', 'neutral']
 
-    # Calculate the confusion matrix
+    # Plotting the confusion matrix for testing
     conf_matrix = confusion_matrix(all_labels, all_preds)
-
-    # Plot the confusion matrix
-    sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues', xticklabels=sound_labels, yticklabels=sound_labels)
+    plt.figure(figsize=(10, 8))  # Adjust the figure size as needed
+    sns.set(font_scale=0.7)  # Adjust the font scale as needed
+    sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues', xticklabels=emotion_labels, yticklabels=emotion_labels)
     plt.title('Confusion Matrix - Testing')
     plt.ylabel('Actual Label')
     plt.xlabel('Predicted Label')
+    plt.xticks(rotation=45)  # Rotate x labels for better visibility
+    plt.yticks(rotation=0)  # Keep y labels horizontal
     plt.show()
 
 if __name__ == '__main__':
-    EmoDB_file_path = 'C:\\Users\\jerne\\OneDrive\\Desktop\\FAKS\\MAG2\\Govorne_tehnologije\\diploma_extended\\wav'
-
+    dataset_path = 'C:\\Users\\jerne\\Desktop\\FAKS\\MAG2\\Govorne_tehnologije\\diploma_extended\\wav'
+    
     # Load data
-    train_loader, validation_loader, test_loader = dataload.load_data(EmoDB_file_path)
+    train_loader, validation_loader, test_loader = dataload.load_data(dataset_path)
 
     for inputs, targets in train_loader:
         print(f"Input batch shape: {inputs.shape}")
@@ -163,9 +158,7 @@ if __name__ == '__main__':
         break
 
     # Create model and optimizer
-    input_shape = (1, 128, 251)  # Adjust as needed
-    num_classes = 7  # Adjust as needed
-    model, optimizer = cnn2d.create_model2d(input_shape, num_classes)
+    model, optimizer = network.create_model(num_features=39, num_time_frames=251, num_classes=7)
     criterion = nn.CrossEntropyLoss()
 
     # Train the model
