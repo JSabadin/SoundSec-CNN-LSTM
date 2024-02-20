@@ -4,8 +4,8 @@ import torch
 import torch.nn as nn
 from sklearn.metrics import confusion_matrix, precision_score, recall_score, f1_score
 import seaborn as sns
-import network   # Ensure this module is adapted for PyTorch
-import dataload  # Ensure this module is adapted for PyTorch
+import network  
+import dataload  
 
 # Configuration for using GPU if available
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
